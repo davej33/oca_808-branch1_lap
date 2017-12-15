@@ -191,6 +191,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
 
     @Override
     public void loadPreviousQuestion() {
+        mDisplayingExplanation = false;
         mViewModel.loadPreviousQuestion();
     }
 }

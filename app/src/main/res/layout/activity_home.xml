@@ -16,15 +16,15 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/background_buttons_home"
         android:elevation="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/games_button"
-        app:layout_constraintEnd_toStartOf="@+id/practice_button_view"
+        app:layout_constraintBottom_toTopOf="@+id/train_button"
+        app:layout_constraintEnd_toStartOf="@+id/practice_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp" />
 
     <ImageButton
-        android:id="@+id/games_button"
+        android:id="@+id/train_button"
         android:layout_width="152dp"
         android:layout_height="142dp"
         android:layout_marginBottom="8dp"
@@ -33,7 +33,7 @@
         android:background="@drawable/background_buttons_home"
         android:elevation="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/practice_button_view2"
+        app:layout_constraintEnd_toStartOf="@+id/stats_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_button"
@@ -61,7 +61,7 @@
         app:layout_constraintVertical_bias="0.511" />
 
     <ImageButton
-        android:id="@+id/practice_button_view2"
+        android:id="@+id/stats_button"
         android:layout_width="152dp"
         android:layout_height="142dp"
         android:layout_marginBottom="8dp"
@@ -71,8 +71,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/games_button"
-        app:layout_constraintTop_toBottomOf="@+id/practice_button_view" />
+        app:layout_constraintStart_toEndOf="@+id/train_button"
+        app:layout_constraintTop_toBottomOf="@+id/practice_button" />
 
     <TextView
         android:id="@+id/stats_tv"
@@ -88,10 +88,10 @@
         android:textColor="#63d0ff"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/practice_button_view2"
-        app:layout_constraintEnd_toEndOf="@+id/practice_button_view2"
-        app:layout_constraintStart_toStartOf="@+id/practice_button_view2"
-        app:layout_constraintTop_toTopOf="@+id/practice_button_view2" />
+        app:layout_constraintBottom_toBottomOf="@+id/stats_button"
+        app:layout_constraintEnd_toEndOf="@+id/stats_button"
+        app:layout_constraintStart_toStartOf="@+id/stats_button"
+        app:layout_constraintTop_toTopOf="@+id/stats_button" />
 
     <TextView
         android:id="@+id/training_tv"
@@ -107,19 +107,19 @@
         android:textColor="#63d0ff"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/games_button"
-        app:layout_constraintEnd_toEndOf="@+id/games_button"
-        app:layout_constraintStart_toStartOf="@+id/games_button"
-        app:layout_constraintTop_toTopOf="@+id/games_button" />
+        app:layout_constraintBottom_toBottomOf="@+id/train_button"
+        app:layout_constraintEnd_toEndOf="@+id/train_button"
+        app:layout_constraintStart_toStartOf="@+id/train_button"
+        app:layout_constraintTop_toTopOf="@+id/train_button" />
 
     <ImageButton
-        android:id="@+id/practice_button_view"
+        android:id="@+id/practice_button"
         android:layout_width="152dp"
         android:layout_height="142dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/background_buttons_home"
         android:elevation="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/practice_button_view2"
+        app:layout_constraintBottom_toTopOf="@+id/stats_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/test_button"
@@ -139,10 +139,10 @@
         android:textColor="#63d0ff"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/practice_button_view"
-        app:layout_constraintEnd_toEndOf="@+id/practice_button_view"
-        app:layout_constraintStart_toStartOf="@+id/practice_button_view"
-        app:layout_constraintTop_toTopOf="@+id/practice_button_view"
+        app:layout_constraintBottom_toBottomOf="@+id/practice_button"
+        app:layout_constraintEnd_toEndOf="@+id/practice_button"
+        app:layout_constraintStart_toStartOf="@+id/practice_button"
+        app:layout_constraintTop_toTopOf="@+id/practice_button"
         app:layout_constraintVertical_bias="0.511" />
 
 </android.support.constraint.ConstraintLayout>
