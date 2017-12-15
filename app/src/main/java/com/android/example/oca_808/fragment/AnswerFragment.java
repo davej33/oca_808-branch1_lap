@@ -117,7 +117,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         disableRadioButtons();
         disableCheckboxes();
         final int GREEN = getResources().getColor(R.color.colorGreen);
-        final int RED = getResources().getColor(R.color.colorAccent);
+        final int RED = getResources().getColor(R.color.colorRed);
         if (mQuestionType == 1) {
             switch (mCorrectAnswers.charAt(0)) {
                 case 'a':
@@ -449,7 +449,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        Log.i(LOG_TAG, "onStop run");
+//        Log.i(LOG_TAG, "onStop run");
         mViewModel.saveDataToDb();
     }
 

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -40,7 +41,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
     private FloatingActionButton mFAB;
     private ToggleButton mShowAnswerButton;
     private FrameLayout mExplanationContainer, mQuestionContainer, mAnswerContainer, mQuestionForSolutionContainer;
-    private static final String EXPLANATION_DISPLAY_TYPE = "explanation";
+    private static boolean mDisplayingExplanation = false;
     private ArrayList<String> mWrongAnswers;
     private String mUserAnswer;
 
@@ -49,7 +50,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
+        Log.i(LOG_TAG, "onCreate QuestionA run");
 
         if (mViewModel == null) {
             mViewModel = QuestionsViewModel.getQVM();
@@ -64,20 +65,20 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
 
         Toast.makeText(this, mViewModel.getTestTitle(), Toast.LENGTH_SHORT).show();
         // Hide the status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(uiOptions);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark, null)));
 
-
+        // get FAB instance and set onClickListener
         if (mFAB == null) {
             mFAB = findViewById(R.id.floatingActionButton);
             mFAB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mViewModel.getUserAnswer().equals("")) mViewModel.setUserAnswer("");
+                    if (mViewModel.getUserAnswer().equals("")) mViewModel.setUserAnswer("");
 
 //                    String solution = mViewModel.getCurrentQuestion().answer;
                     mWrongAnswers = mViewModel.checkAnswer();
@@ -85,6 +86,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
                     // TODO store answer in Test object, create test object
 
                     if (!mShowAnswerButton.isChecked() || (mShowAnswerButton.isChecked() && mExplanationContainer.getVisibility() == View.VISIBLE)) {
+                        mDisplayingExplanation = false;
                         mViewModel.nextQuestion();
                     } else {
                         displayExplanation();
@@ -93,13 +95,30 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
             });
         }
 
-        displayQuestion();
-
         subscribe();
+
+        if (savedInstanceState != null){
+            Log.i(LOG_TAG, "savedInstanceBundle ====== " + savedInstanceState.getBoolean("display"));
+            mDisplayingExplanation = savedInstanceState.getBoolean("display");
+            setDisplay();}
+
+
 
     }
 
+    private void setDisplay() {
+        if (mDisplayingExplanation) {
+            Log.i(LOG_TAG,"if/else displayExp run. mDisplayingExplanation = " + mDisplayingExplanation);
+            displayExplanation();
+        } else {
+            Log.i(LOG_TAG,"if/else displayQuestion run. mDisplayingExplanation = " + mDisplayingExplanation);
+            displayQuestion();
+        }
+    }
+
     private void displayQuestion() {
+        Log.i(LOG_TAG, "displayQuestion run. mDisplayingExplanation = " + mDisplayingExplanation);
+        mDisplayingExplanation = false;
 
         // manage view visibilities
         mExplanationContainer.setVisibility(View.GONE);
@@ -117,6 +136,8 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
 
 
     private void displayExplanation() {
+        Log.i(LOG_TAG, "displayExplanation run");
+        mDisplayingExplanation = true;
 
         // manage view visibilities
         mQuestionContainer.setVisibility(View.GONE);
@@ -135,7 +156,8 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
             @Override
             public void onChanged(@Nullable Integer qNum) {
                 mQuestionNum = qNum;
-                displayQuestion();
+                setDisplay();
+                Log.i(LOG_TAG, "subscriber run. mDisplayingExplanation = " + mDisplayingExplanation);
             }
         };
         mViewModel.newQuestion().observe(this, questionObserver);
@@ -149,6 +171,14 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
 
     }
 
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(LOG_TAG, "onSavedInstanceState run");
+        outState.putBoolean("display", mDisplayingExplanation);
+    }
 
     @Override
     public void answerSelected(boolean b) {
