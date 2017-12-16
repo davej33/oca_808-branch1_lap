@@ -18,13 +18,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.example.oca_808.adapter.Objective;
+import com.android.example.oca_808.adapter.ObjectivesAdapter;
 import com.android.example.oca_808.adapter.TestHistoryAdapter;
 import com.android.example.oca_808.db.AppDatabase;
 import com.android.example.oca_808.helper.TestGenerator;
 import com.android.example.oca_808.view_model.QuestionViewModelFactory;
 import com.android.example.oca_808.view_model.QuestionsViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,6 +50,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button mPracticeButton;
     private Button mTrainButton;
     private Button mStatsButton;
+    private static final String[] OBJECTIVES = {"z", "1. Java Basics",
+    "2. Data Types", "3. Operators and Decision Constructs",
+    "4. Arrays", "5. Loop Constructs","6. Methods and Encapsulation",
+    "7. Inheritance", "8. Handling Exceptions", "9. Java API Classes"};
 
 
     @Override
@@ -114,6 +124,39 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void inflateTrainingPopup(View v) {
+        mPopUpView = mLayoutInflater.inflate(R.layout.popup_training_2, (ViewGroup) v.getRootView(), false);
+        Spinner spinner = mPopUpView.findViewById(R.id.objectives_spinner);
+
+        List<Objective> objList = new ArrayList<>();
+
+        for (int i = 0; i < OBJECTIVES.length; i++) {
+            Objective obj = new Objective(i, OBJECTIVES[i]);
+            objList.add(obj);
+        }
+
+        ObjectivesAdapter adapter = new ObjectivesAdapter(this, 0, objList);
+
+        spinner.setAdapter(adapter);
+
+        // Initialize new instance of popup window
+        mPopUpWindow = new PopupWindow(
+                mPopUpView,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                true
+        );
+
+        // Set an elevation value for popup window
+        // Call requires API level 21
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopUpWindow.setElevation(5.0f);
+        }
+
+        // show the popup
+        mPopUpWindow.showAtLocation(mMainLayout, Gravity.CENTER, 0, 0);
+
+        // dim popup background
+        dimBehind(mPopUpWindow);
     }
 
     private void inflateTestPopUp(View v) {
